@@ -1,5 +1,7 @@
 package dev.brunob.algovisualizer;
 
+import dev.brunob.algovisualizer.algorithms.SearchAlgorithms;
+import dev.brunob.algovisualizer.algorithms.SortingAlgorithms;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -11,38 +13,43 @@ import javafx.stage.Stage;
 public class SortingVisualizer extends Application {
 
     private AlgorithmVisualizer visualizer;
+    private SortingAlgorithms sortingAlgorithms;
+    private SearchAlgorithms searchAlgorithms;
 
     @Override
     public void start(Stage primaryStage) {
         visualizer = new AlgorithmVisualizer(800, 600);
+        sortingAlgorithms = new SortingAlgorithms(visualizer.getArray(), visualizer);
+        searchAlgorithms = new SearchAlgorithms(visualizer.getArray(), visualizer);
 
         ComboBox<String> algorithmSelector = new ComboBox<>();
-        algorithmSelector.getItems().addAll("Bubble Sort", "Insertion Sort", "Selection Sort", "Quick Sort", "Merge Sort","Heap Sort","Binary Search", "Linear Search");
+        algorithmSelector.getItems().addAll("Bubble Sort", "Insertion Sort", "Selection Sort", "Quick Sort", "Merge Sort","Heap Sort","Binary Search", "Linear Search", "Jump Search");
         algorithmSelector.setValue("Bubble Sort");
 
         Button startButton = new Button("Start");
+        Button resetButton = new Button("Reset");
         startButton.setOnAction(e -> {
             String selectedAlgorithm = algorithmSelector.getValue();
             if ("Bubble Sort".equals(selectedAlgorithm)) {
-                visualizer.bubbleSort();
+                sortingAlgorithms.bubbleSort();
             } else if ("Insertion Sort".equals(selectedAlgorithm)) {
-                visualizer.insertionSort();
-            } else if("Binary Search".equals(selectedAlgorithm)){
-                visualizer.binarySearch();
+                sortingAlgorithms.insertionSort();
             } else if ("Selection Sort".equals(selectedAlgorithm)) {
-                visualizer.selectionSort();
+                //sortingAlgorithms.selectionSort();
             } else if("Quick Sort".equals(selectedAlgorithm)){
-                visualizer.quickSort();
+                //sortingAlgorithms.quickSort();
             } else if ("Merge Sort".equals(selectedAlgorithm)) {
-                visualizer.mergeSort();
-            } else if("Linear Search".equals(selectedAlgorithm)){
-                visualizer.linearSearch();
+                //sortingAlgorithms.mergeSort();
             } else if("Heap Sort".equals(selectedAlgorithm)){
-                visualizer.heapSort();
+                //sortingAlgorithms.heapSort();
+            } else if("Binary Search".equals(selectedAlgorithm)) {
+                searchAlgorithms.binarySearch(resetButton);
+            } else if ("Linear Search".equals(selectedAlgorithm)) {
+                searchAlgorithms.linearSearch(resetButton);
             }
         });
 
-        Button resetButton = new Button("Reset");
+
         resetButton.setOnAction(e -> {
             visualizer.resetArray();
             visualizer.drawArray();
